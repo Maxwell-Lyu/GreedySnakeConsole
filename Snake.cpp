@@ -15,7 +15,7 @@ void Snake::Print() {
     this->render.Draw( std::get<0>(*it), std::get<1>(*it), it == this->points.begin() ? "██" : "▒▒", this->color);
 }
 
-void Snake::Move() {
+void Snake::Move(bool getFood) {
   std::pair<int,int> to_add, to_fad, to_del;
   switch(this->direction) {
     case Direction::UP: { to_fad = this->points.front(); to_del = this->points.back(); to_add = std::make_pair(std::get<0>(to_fad), std::get<1>(to_fad) - 1); break; }
@@ -25,7 +25,9 @@ void Snake::Move() {
   }
   this->render.Draw(std::get<0>(to_add), std::get<1>(to_add), "██", this->color);
   this->render.Draw(std::get<0>(to_fad), std::get<1>(to_fad), "▒▒", this->color);
-  this->render.Draw(std::get<0>(to_del), std::get<1>(to_del), "  ", this->color);
   this->points.emplace_front(to_add);
-  this->points.pop_back();
+  if(!getFood) {
+    this->render.Draw(std::get<0>(to_del), std::get<1>(to_del), "  ", this->color);
+    this->points.pop_back();
+  }
 }
