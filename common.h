@@ -4,4 +4,5 @@
 #include <conio.h>
 #include <sys/timeb.h>
 #include <cstring>
-
+#include <vector>
+#include<algorithm>
