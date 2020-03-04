@@ -30,6 +30,7 @@ void Game::Framework() {
   render->ClearScreen();
   render->HideCursor();
   this->DrawPanel();
+  this->PanelHint();
   this->PanelSetStatus(READY);
   this->PanelSetSpeed();
   this->PanelSetMode();
@@ -41,6 +42,7 @@ void Game::Framework() {
           this->DrawPanel();
           int score = this->Loop(); 
           this->PanelDelBonus();
+          this->PanelHint();
           break;
         }
         case 109: {
@@ -48,7 +50,7 @@ void Game::Framework() {
           this->PanelSetMode();
           break;
         }
-        case 61: {
+        case 116: {
           this->fps = (this->fps - 200 + 400) % 400 + 100;
           this->PanelSetSpeed();
           break;
@@ -86,6 +88,7 @@ int Game::Loop() {
   this->PanelSetStatus(RUNNING);
   this->PanelSetSpeed();
   this->PanelSetMode();
+  this->PanelHint();
   while(1) {
     if(kbhit()) {
       switch(getch()) {
@@ -100,6 +103,7 @@ int Game::Loop() {
         }
         case 112: {
           this->PanelSetStatus(PAUSE);
+          this->PanelHint();
           while(1) {
             if(kbhit()) {
               char ch = getch();
@@ -113,6 +117,7 @@ int Game::Loop() {
           }
           time0 = getTime() + 2000;
           this->PanelSetStatus(RUNNING);
+          this->PanelHint();
         }
       }
     }
@@ -218,6 +223,7 @@ void Game::PanelSetScore(int score) {
   this->render->Draw(this->xBound.second + 3, 14, buf, Color::BLU, true);
 }
 void Game::PanelSetStatus(int state) {
+  this->status = state;
   switch (state) {
     case RUNNING : this->render->Draw(this->xBound.second + 1, 11, "░░░ GAME RUNNING ░░░", Color::GRN, true); break;
     case PAUSE   : this->render->Draw(this->xBound.second + 1, 11, "░░░    PAUSED    ░░░", Color::YLW, true); break;
@@ -257,4 +263,32 @@ void Game::PanelSetMode() {
 
 void Game::PanelDelBonus() {
   this->render->Draw(this->xBound.second + 1, 17, "░░░              ░░░", Color::CYN, true);
+}
+
+
+void Game::PanelHint() {
+  switch (this->status) {
+    case READY:
+    case OVER: {
+      this->render->Draw(this->xBound.second + 1, 25, "█████▶  HINT  ◀█████", Color::WHT, true);
+      this->render->Draw(this->xBound.second + 1, 26, "[S] ▶ START GAME    ", Color::CYN, true);    
+      this->render->Draw(this->xBound.second + 1, 27, "[M] ▶ TOGGLE MODE   ", Color::CYN, true);
+      this->render->Draw(this->xBound.second + 1, 28, "[T] ▶ TOGGLE SPEED  ", Color::CYN, true);
+      break;
+    }
+    case RUNNING: {
+      this->render->Draw(this->xBound.second + 1, 25, "█████▶  HINT  ◀█████", Color::WHT, true);
+      this->render->Draw(this->xBound.second + 1, 26, "[P] ▶ PAUSE         ", Color::CYN, true);    
+      this->render->Draw(this->xBound.second + 1, 27, "                    ", Color::CYN, true);
+      this->render->Draw(this->xBound.second + 1, 28, "                    ", Color::CYN, true);
+      break;
+    }
+    case PAUSE: {
+      this->render->Draw(this->xBound.second + 1, 25, "█████▶  HINT  ◀█████", Color::WHT, true);
+      this->render->Draw(this->xBound.second + 1, 26, "[P] ▶ RESUME        ", Color::CYN, true);    
+      this->render->Draw(this->xBound.second + 1, 27, "[Q] ▶ QUIT GAME     ", Color::CYN, true);
+      this->render->Draw(this->xBound.second + 1, 28, "                    ", Color::CYN, true);
+      break;
+    }
+  }
 }

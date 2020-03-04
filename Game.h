@@ -78,7 +78,7 @@ class Game {
     void PanelSetSpeed();
     void PanelSetMode();
     void PanelDelBonus();
-    void Refresh();
+    void PanelHint();
 };
 
 std::pair<int,int> justifyPoint(std::pair<int,int> p, std::pair<int, int> xBound, std::pair<int, int> yBound);
