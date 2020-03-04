@@ -1,19 +1,22 @@
 #include "Game.h"
 
 std::pair<int,int> Foods::setFood(std::deque<std::pair<int,int>> &avoid, std::pair<int, int> &xBound, std::pair<int, int> &yBound, bool isBonus) {
+  const int padding = 2;
   std::pair<int,int> tmp;
+  bool inAvoid = false;
   do {
-    tmp = justifyPoint({rand(), rand()}, {xBound.first + 1, xBound.second - 1}, {yBound.first + 1, yBound.second - 1});
+    tmp = justifyPoint({rand(), rand()}, {xBound.first + padding, xBound.second - padding}, {yBound.first + padding, yBound.second - padding});
+    inAvoid = false;
     for(auto& point: avoid) 
       if(point == tmp)
-        continue;
-  } while (tmp == this->bonus || tmp == this->food);
+        inAvoid = true;
+  } while (inAvoid || tmp == this->bonus || tmp == this->food);
   if(isBonus) {
-    this->render.Draw(std::get<0>(tmp), std::get<1>(tmp), "ボ", Color::YLW);
+    this->render.Draw(std::get<0>(tmp), std::get<1>(tmp), "➎ ", Color::YLW);
     this->bonus = tmp;
   }
   else {
-    this->render.Draw(std::get<0>(tmp), std::get<1>(tmp), "フ", Color::MAG);
+    this->render.Draw(std::get<0>(tmp), std::get<1>(tmp), "➊ ", Color::GRN);
     this->food = tmp;
   }
   return tmp;

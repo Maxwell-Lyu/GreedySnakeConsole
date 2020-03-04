@@ -10,7 +10,7 @@ class Render {
     void HideCursor();
     void ShowCursor();
     // bound: [xl, xr, yl, yr]
-    void Draw(int x, int y, const char *c, Color color, std::pair<int, int> xBound = {-1,-1}, std::pair<int, int> yBound = {-1,-1});
+    void Draw(int x, int y, const char *c, Color color, bool isBold = false, std::pair<int, int> xBound = {-1,-1}, std::pair<int, int> yBound = {-1,-1});
     void DrawRect(std::pair<int, int> xBound, std::pair<int, int> yBound, const char *c, Color color);
     void Test();
 };
@@ -49,6 +49,7 @@ class Snake {
     friend class Game;
 };
 
+enum {RUNNING, PAUSE, OVER};
 
 class Game {
   private:
@@ -57,15 +58,25 @@ class Game {
     Direction direction = Direction::UP;
     std::pair<int, int> xBound = {1,30};
     std::pair<int, int> yBound = {1,30};
-    int Score = 0;
+
+    int status = OVER;
+    int fps = 100;
+    class Panel {
+    }panel;
     friend class Snake;
   public:
     Game();
     void Build();
-    void Loop();
+    int Loop();
     bool checkBound();
     ~Game();
+
+    void DrawPanel();
+    void PanelSetScore(int score);
+    void PanelSetStatus(int state);
+    void PanelSetBonus(bool isCountDown, int val);
+    void PanelSetSpeed();
+    void Refresh();
 };
 
 std::pair<int,int> justifyPoint(std::pair<int,int> p, std::pair<int, int> xBound, std::pair<int, int> yBound);
-
