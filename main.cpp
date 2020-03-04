@@ -9,8 +9,7 @@ int main() {
   system("pause");
   auto game = new Game();
   game->Build();
-  game->DrawPanel();
-  game->Loop();
+  game->Framework();
   // while(1) {
   //   snake->Move({1, 30}, {1, 30});
   //   system("pause");

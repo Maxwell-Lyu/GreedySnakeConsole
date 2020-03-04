@@ -25,16 +25,43 @@ Game::Game() {
   this->render = new Render();
 }
 
-void Game::Build() {
-  timeb time;
-  ftime(&time);
-  srand(time.time);
+void Game::Framework() {
   render->SizeScreen(this->xBound.second + 10, this->yBound.second);
   render->ClearScreen();
   render->HideCursor();
-  if(this->snake != nullptr) delete this->snake;
-  this->snake = new Snake(this->xBound, this->yBound, this->direction);
-  if(this->mode) this->render->DrawRect(this->xBound, this->yBound, "▓▓", Color::RED);
+  this->DrawPanel();
+  this->PanelSetStatus(READY);
+  this->PanelSetSpeed();
+  this->PanelSetMode();
+  while(1) {
+    if(kbhit()) {
+      switch (getch()) {
+        case 115: {
+          render->ClearScreen();
+          this->DrawPanel();
+          int score = this->Loop(); 
+          this->PanelDelBonus();
+          break;
+        }
+        case 109: {
+          this->mode = 1 - this->mode; 
+          this->PanelSetMode();
+          break;
+        }
+        case 61: {
+          this->fps = (this->fps - 200 + 400) % 400 + 100;
+          this->PanelSetSpeed();
+          break;
+        }
+      }
+    }
+    _sleep(200);
+  }
+}
+
+
+void Game::Build() {
+
 }
 
 uint64_t getTime() {
@@ -44,6 +71,12 @@ uint64_t getTime() {
 }
 
 int Game::Loop() {
+  timeb time;
+  ftime(&time);
+  srand(time.time);
+  // if(this->snake != nullptr) delete this->snake;
+  this->snake = new Snake(this->xBound, this->yBound, this->direction, (this->xBound.first + this->xBound.second)/2, (this->yBound.first + this->yBound.second)/2);
+  if(this->mode) this->render->DrawRect(this->xBound, this->yBound, "▓▓", Color::RED);
   int Score = 0;
   uint64_t time0 = getTime();
   int foodCount = 0;
@@ -56,13 +89,31 @@ int Game::Loop() {
   while(1) {
     if(kbhit()) {
       switch(getch()) {
-        case 224:
+        case 224: {
           switch (getch()) {
             case 72: d = Direction::UP; break;
             case 75: d = Direction::LT; break;
             case 80: d = Direction::DN; break;
             case 77: d = Direction::RT; break;
           }
+          break;
+        }
+        case 112: {
+          this->PanelSetStatus(PAUSE);
+          while(1) {
+            if(kbhit()) {
+              char ch = getch();
+              if(ch == 112) break;
+              else if(ch == 113) {
+                this->PanelSetStatus(OVER);
+                return Score;
+              }
+            }
+            _sleep(200);
+          }
+          time0 = getTime() + 2000;
+          this->PanelSetStatus(RUNNING);
+        }
       }
     }
     
@@ -107,10 +158,10 @@ int Game::Loop() {
 
     if(this->checkBound()) {
       this->PanelSetStatus(OVER);
-      while (1)
-        _sleep(1000);
+      break;
     }
   }
+  delete this->snake;
   return Score;
 }
 
@@ -171,6 +222,7 @@ void Game::PanelSetStatus(int state) {
     case RUNNING : this->render->Draw(this->xBound.second + 1, 11, "░░░ GAME RUNNING ░░░", Color::GRN, true); break;
     case PAUSE   : this->render->Draw(this->xBound.second + 1, 11, "░░░    PAUSED    ░░░", Color::YLW, true); break;
     case OVER    : this->render->Draw(this->xBound.second + 1, 11, "░░░  GAME OVER!  ░░░", Color::RED, true); break;
+    case READY   : this->render->Draw(this->xBound.second + 1, 11, "░░░  GAME READY  ░░░", Color::CYN, true); break;
   }
 }
 
@@ -192,7 +244,7 @@ void Game::PanelSetBonus(bool isCountDown, int val) {
 void Game::PanelSetSpeed() {
   
   char buf[8];
-  sprintf(buf, "% 2d FPS", 1000 / this->fps);
+  sprintf(buf, "%2d FPS", 1000 / this->fps);
   this->render->Draw(this->xBound.second + 4, 20, buf, Color::BLU, true);
 }
 
@@ -201,4 +253,8 @@ void Game::PanelSetMode() {
     this->render->Draw(this->xBound.second + 1, 23, "░░░     WALL     ░░░", Color::RED, true);
   else
     this->render->Draw(this->xBound.second + 1, 23, "░░░     FREE     ░░░", Color::GRN, true);
+}
+
+void Game::PanelDelBonus() {
+  this->render->Draw(this->xBound.second + 1, 17, "░░░              ░░░", Color::CYN, true);
 }

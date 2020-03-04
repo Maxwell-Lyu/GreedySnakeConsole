@@ -49,7 +49,7 @@ class Snake {
     friend class Game;
 };
 
-enum {RUNNING, PAUSE, OVER};
+enum {RUNNING, PAUSE, OVER, READY};
 enum {FREE, WALL};
 class Game {
   private:
@@ -59,13 +59,14 @@ class Game {
     std::pair<int, int> xBound = {1,30};
     std::pair<int, int> yBound = {1,30};
 
-    int status = OVER;
+    int status = READY;
     int fps = 100;
     int mode = WALL;
     friend class Snake;
   public:
     Game();
     void Build();
+    void Framework();
     int Loop();
     bool checkBound();
     ~Game();
@@ -76,6 +77,7 @@ class Game {
     void PanelSetBonus(bool isCountDown, int val);
     void PanelSetSpeed();
     void PanelSetMode();
+    void PanelDelBonus();
     void Refresh();
 };
 
