@@ -79,6 +79,8 @@ class Game {
     void PanelSetMode();
     void PanelDelBonus();
     void PanelHint();
+
+    std::string *getPlayerName(int score);
 };
 
 std::pair<int,int> justifyPoint(std::pair<int,int> p, std::pair<int, int> xBound, std::pair<int, int> yBound);

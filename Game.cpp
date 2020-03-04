@@ -34,7 +34,7 @@ void Game::Framework() {
   this->PanelSetStatus(READY);
   this->PanelSetSpeed();
   this->PanelSetMode();
-  this->getPlayerName();
+  this->getPlayerName(999);
   while(1) {
     if(kbhit()) {
       switch (getch()) {
