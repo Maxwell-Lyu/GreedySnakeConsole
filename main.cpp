@@ -1,20 +1,18 @@
-#include <iostream>
-#include "Snake.h"
+#include "Game.h"
 int main() {
-  auto render = new Render();
-  render->SizeScreen(30, 30);
-  render->ClearScreen();
-  auto snake = new Snake(*render);
-  snake->Print();
+  // auto render = new Render();
+  // render->SizeScreen(30, 30);
+  // render->ClearScreen();
+  // render->HideCursor();
+  // auto snake = new Snake(render, UP, 10, 10);
+  // snake->Print();
   system("pause");
-  snake->Move();
-  system("pause");
-  snake->Move(1);
-  snake->setDirection(Direction::LT);
-  system("pause");
-  snake->Move(1);
-  system("pause");
-  snake->Move();
-  system("pause");
+  auto game = new Game();
+  game->Build();
+  game->Loop();
+  // while(1) {
+  //   snake->Move({1, 30}, {1, 30});
+  //   system("pause");
+  // }
   return 0;
 }

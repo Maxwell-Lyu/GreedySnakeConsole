@@ -10,12 +10,13 @@ Snake::Snake(std::pair<int, int> xBound, std::pair<int, int> yBound, Direction d
   this->Print();
   this->xBound = xBound;
   this->yBound = yBound;
+  this->foods.setFood(this->points, xBound, yBound);
 }
 
 
 void Snake::Print() {
   for(std::deque<std::pair<int,int>>::iterator it = this->points.begin(); it != this->points.end(); ++it)
-    this->render.Draw( std::get<0>(*it), std::get<1>(*it), it == this->points.begin() ? "██" : "▒▒", this->color);
+    this->render.Draw( std::get<0>(*it), std::get<1>(*it), it == this->points.begin() ? "██" : "▓▓", this->color);
 }
 
 void Snake::setDirection(Direction d) {
@@ -51,7 +52,7 @@ int Snake::Move(bool getFood) {
       break; }
   }
   this->render.Draw(std::get<0>(to_add), std::get<1>(to_add), "██", this->color);
-  this->render.Draw(std::get<0>(to_fad), std::get<1>(to_fad), "▒▒", this->color);
+  this->render.Draw(std::get<0>(to_fad), std::get<1>(to_fad), "▓▓", this->color);
   this->points.emplace_front(to_add);
   switch(this->foods.checkFood(to_add)) {
     case EMPTY: {

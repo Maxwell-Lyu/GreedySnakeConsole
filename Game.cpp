@@ -34,7 +34,8 @@ void Game::Build() {
   render->HideCursor();
   if(this->snake != nullptr) delete this->snake;
   this->Score = 0;
-  this->snake = new Snake({1,30}, {1,30}, this->direction);
+  this->snake = new Snake(this->xBound, this->yBound, this->direction);
+  this->render->DrawRect(this->xBound, this->yBound, "▓▓", Color::RED);
 }
 
 uint64_t getTime() {
@@ -61,6 +62,8 @@ void Game::Loop() {
           }
       }
     }
+    
+
     if(time0 + fps < getTime()) {
       this->snake->setDirection(d);
       switch(this->snake->Move()) {
@@ -72,7 +75,7 @@ void Game::Loop() {
           }
           break;
         } 
-        case BONUS:   break;
+        case BONUS: time_bonus_start = 0; break;
         case EMPTY:   break;
       }
       time0 += fps;
@@ -86,8 +89,26 @@ void Game::Loop() {
       this->snake->foods.dropBonus();
       time_bonus_start = 0;
     }
+    if(this->checkBound()) {
+      std::cout<<"FUUUUUUUUUUUUUUUUUUUCK";
+      while (1)
+        _sleep(1000);
+    }
   }
 }
+
+
+bool Game::checkBound() {
+  std::pair<int,int> p = this->snake->points.front();
+  for(std::deque<std::pair<int,int>>::iterator it = this->snake->points.begin(); it != this->snake->points.end(); ++it)
+    if(it != this->snake->points.begin() && *it == p)
+      return true;
+  
+  if(p.first == this->xBound.first || p.first == this->xBound.second || p.second == this->yBound.first || p.second == this->yBound.second)
+    return true;
+  return false;
+}
+
 
 Game::~Game() {
   delete this->snake;

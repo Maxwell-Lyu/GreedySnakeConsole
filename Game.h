@@ -11,7 +11,7 @@ class Render {
     void ShowCursor();
     // bound: [xl, xr, yl, yr]
     void Draw(int x, int y, const char *c, Color color, std::pair<int, int> xBound = {-1,-1}, std::pair<int, int> yBound = {-1,-1});
-    void DrawRect(int x1, int y1, int x2, int y2, const char *c, Color color);
+    void DrawRect(std::pair<int, int> xBound, std::pair<int, int> yBound, const char *c, Color color);
     void Test();
 };
 
@@ -20,7 +20,7 @@ enum {FOOD, BONUS, EMPTY};
 class Foods {
   private:
     int count = 0;
-    std::pair<int,int> food = {10, 9};
+    std::pair<int,int> food = {-1, -1};
     std::pair<int,int> bonus = {-1, -1};
     Render render;
   public:
@@ -55,12 +55,15 @@ class Game {
     Render *render = nullptr;
     Snake *snake = nullptr;
     Direction direction = Direction::UP;
+    std::pair<int, int> xBound = {1,30};
+    std::pair<int, int> yBound = {1,30};
     int Score = 0;
     friend class Snake;
   public:
     Game();
     void Build();
     void Loop();
+    bool checkBound();
     ~Game();
 };
 
