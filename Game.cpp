@@ -34,7 +34,7 @@ void Game::Build() {
   render->HideCursor();
   if(this->snake != nullptr) delete this->snake;
   this->snake = new Snake(this->xBound, this->yBound, this->direction);
-  this->render->DrawRect(this->xBound, this->yBound, "▓▓", Color::RED);
+  if(this->mode) this->render->DrawRect(this->xBound, this->yBound, "▓▓", Color::RED);
 }
 
 uint64_t getTime() {
@@ -52,6 +52,7 @@ int Game::Loop() {
 
   this->PanelSetStatus(RUNNING);
   this->PanelSetSpeed();
+  this->PanelSetMode();
   while(1) {
     if(kbhit()) {
       switch(getch()) {
@@ -119,9 +120,9 @@ bool Game::checkBound() {
   for(std::deque<std::pair<int,int>>::iterator it = this->snake->points.begin(); it != this->snake->points.end(); ++it)
     if(it != this->snake->points.begin() && *it == p)
       return true;
-  
-  if(p.first == this->xBound.first || p.first == this->xBound.second || p.second == this->yBound.first || p.second == this->yBound.second)
-    return true;
+  if(this->mode)
+    if(p.first == this->xBound.first || p.first == this->xBound.second || p.second == this->yBound.first || p.second == this->yBound.second)
+      return true;
   return false;
 }
 
@@ -154,7 +155,7 @@ void Game::DrawPanel() {
   this->render->Draw(this->xBound.second + 1, 16, "█████▶ BONUS  ◀█████", Color::WHT, true);
   this->render->Draw(this->xBound.second + 1, 17, "░░░              ░░░", Color::CYN, true);
   this->render->Draw(this->xBound.second + 1, 19, "█████▶ SPEED  ◀█████", Color::WHT, true);
-  this->render->Draw(this->xBound.second + 1, 20, "░░░              ░░░", Color::CYN, true);
+  this->render->Draw(this->xBound.second + 1, 20, "░░░              ░░░", Color::BLU, true);
   this->render->Draw(this->xBound.second + 1, 22, "█████▶  MODE  ◀█████", Color::WHT, true);
   this->render->Draw(this->xBound.second + 1, 23, "░░░              ░░░", Color::CYN, true);
 }
@@ -192,5 +193,12 @@ void Game::PanelSetSpeed() {
   
   char buf[8];
   sprintf(buf, "% 2d FPS", 1000 / this->fps);
-  this->render->Draw(this->xBound.second + 4, 20, buf, Color::CYN, true);
+  this->render->Draw(this->xBound.second + 4, 20, buf, Color::BLU, true);
+}
+
+void Game::PanelSetMode() {
+  if(this->mode)
+    this->render->Draw(this->xBound.second + 1, 23, "░░░     WALL     ░░░", Color::RED, true);
+  else
+    this->render->Draw(this->xBound.second + 1, 23, "░░░     FREE     ░░░", Color::GRN, true);
 }

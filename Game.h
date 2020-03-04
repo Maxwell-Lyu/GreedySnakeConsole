@@ -50,7 +50,7 @@ class Snake {
 };
 
 enum {RUNNING, PAUSE, OVER};
-
+enum {FREE, WALL};
 class Game {
   private:
     Render *render = nullptr;
@@ -61,8 +61,7 @@ class Game {
 
     int status = OVER;
     int fps = 100;
-    class Panel {
-    }panel;
+    int mode = WALL;
     friend class Snake;
   public:
     Game();
@@ -76,6 +75,7 @@ class Game {
     void PanelSetStatus(int state);
     void PanelSetBonus(bool isCountDown, int val);
     void PanelSetSpeed();
+    void PanelSetMode();
     void Refresh();
 };
 
