@@ -1,5 +1,11 @@
-#include "common.h"
-
+#include <iostream>
+#include <utility>
+#include <deque>
+#include <conio.h>
+#include <sys/timeb.h>
+#include <cstring>
+#include <vector>
+#include<algorithm>
 
 enum Color { BLK = 30, RED, GRN, YLW, BLU, MAG, CYN, WHT };
 
