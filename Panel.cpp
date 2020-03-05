@@ -64,9 +64,9 @@ void Game::PanelSetSpeed() {
 
 void Game::PanelSetMode() {
   if(this->mode)
-    this->render->Draw(this->xBound.second + 1, 23, "░░░     WALL     ░░░", Color::RED, true);
+    this->render->Draw(this->xBound.second + 1, 23, "░░░   CHAMPION   ░░░", Color::YLW, true);
   else
-    this->render->Draw(this->xBound.second + 1, 23, "░░░     FREE     ░░░", Color::GRN, true);
+    this->render->Draw(this->xBound.second + 1, 23, "░░░   ZEN MODE   ░░░", Color::GRN, true);
 }
 
 void Game::PanelDelBonus() {

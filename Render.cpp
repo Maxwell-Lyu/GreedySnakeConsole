@@ -23,6 +23,7 @@ void Render::Draw(int x, int y, const char *c, Color color, bool isBold, std::pa
   //   while(y < y0) y += y1;
   //   y = (y - y0) % y1 + y0;
   // }
+  _sleep(5);
   if(isBold) std::cout<<"\033["<<color<<";1m\033["<<y<<";"<<x * 2 - 1<<"H"<<c;
   else std::cout<<"\033["<<color<<"m\033["<<y<<";"<<x * 2 - 1<<"H"<<c;
   std::cout<<"\033[0m";

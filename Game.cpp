@@ -34,7 +34,6 @@ void Game::Framework() {
   this->PanelSetStatus(READY);
   this->PanelSetSpeed();
   this->PanelSetMode();
-  this->getPlayerName(999);
   while(1) {
     if(kbhit()) {
       switch (getch()) {
@@ -42,6 +41,7 @@ void Game::Framework() {
           render->ClearScreen();
           this->DrawPanel();
           int score = this->Loop(); 
+          this->getPlayerName(score);
           this->PanelDelBonus();
           this->PanelHint();
           break;
