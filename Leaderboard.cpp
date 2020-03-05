@@ -3,6 +3,7 @@
 bool sortFun(const struct LeaderboardEntry &e1, const struct LeaderboardEntry &e2) { return e1.score > e2.score; }
 
 void Game::getPlayerName(int score) {
+
   this->render->Draw(5 , 7 , "█████████████▶  GREEDY SNAKE  ◀█████████████", Color::YLW, true);
   this->render->Draw(5 , 8 , "██                                        ██", Color::YLW, true);
   char scorebuf[16];
@@ -18,11 +19,16 @@ void Game::getPlayerName(int score) {
   if(fp == nullptr)
     fp = fopen("Leaderboard.csv", "a");
   LeaderboardEntry tmp;
+  if(fp == nullptr) {
+    this->render->Draw(7 , 11, " LEADERBOARD CURRENTLY UNACCESSIBLE", Color::RED);
+    return;
+  }
   while(~fscanf(fp, "%s%d", &tmp.name, &tmp.score)) {
     leaderboard.push_back(tmp);
   }
 
   if(this->mode) {
+    this->render->Draw(this->xBound.second + 1, 27, "[↩] ▶ ENTER NAME", Color::YLW, true);
     this->render->Draw(13, 10, "", Color::YLW);
     this->render->ShowCursor();
     char name[32];
@@ -38,7 +44,7 @@ void Game::getPlayerName(int score) {
           name[index++] = ch;
         }
       }
-      _sleep(100);
+      _sleep(50);
     }
     name[index - 1] = '\0';
     this->render->HideCursor();
@@ -46,6 +52,7 @@ void Game::getPlayerName(int score) {
     strcpy(tmp.name, name);
     tmp.score = score;
     leaderboard.push_back(tmp);
+    this->render->Draw(this->xBound.second + 1, 27, "                    ", Color::YLW, true);
   } 
   else
   {

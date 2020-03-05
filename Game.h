@@ -65,7 +65,6 @@ class Game {
     friend class Snake;
   public:
     Game();
-    void Build();
     void Framework();
     int Loop();
     bool checkBound();

@@ -1,16 +1,16 @@
 #include "Game.h"
 
 void Game::DrawPanel() {
-  this->render->Draw(this->xBound.second + 3, 3, "▓▓▓▓▓▓", Color::GRN);
-  this->render->Draw(this->xBound.second + 3, 4, "▓▓    ", Color::GRN);
-  this->render->Draw(this->xBound.second + 3, 5, "▓▓  ▓▓", Color::GRN);
-  this->render->Draw(this->xBound.second + 3, 6, "▓▓  ▓▓", Color::GRN);
-  this->render->Draw(this->xBound.second + 3, 7, "▓▓▓▓▓▓", Color::GRN);
-  this->render->Draw(this->xBound.second + 6, 3, "▓▓▓▓▓▓", Color::BLU);
-  this->render->Draw(this->xBound.second + 6, 4, "▓▓    ", Color::BLU);
-  this->render->Draw(this->xBound.second + 6, 5, "▓▓▓▓▓▓", Color::BLU);
-  this->render->Draw(this->xBound.second + 6, 6, "    ▓▓", Color::BLU);
-  this->render->Draw(this->xBound.second + 6, 7, "▓▓▓▓▓▓", Color::BLU);
+  this->render->Draw(this->xBound.second + 3, 3, "▓▓▓▓▓▓", Color::GRN, true);
+  this->render->Draw(this->xBound.second + 3, 4, "▓▓    ", Color::GRN, true);
+  this->render->Draw(this->xBound.second + 3, 5, "▓▓  ▓▓", Color::GRN, true);
+  this->render->Draw(this->xBound.second + 3, 6, "▓▓  ▓▓", Color::GRN, true);
+  this->render->Draw(this->xBound.second + 3, 7, "▓▓▓▓▓▓", Color::GRN, true);
+  this->render->Draw(this->xBound.second + 6, 3, "▓▓▓▓▓▓", Color::BLU, true);
+  this->render->Draw(this->xBound.second + 6, 4, "▓▓    ", Color::BLU, true);
+  this->render->Draw(this->xBound.second + 6, 5, "▓▓▓▓▓▓", Color::BLU, true);
+  this->render->Draw(this->xBound.second + 6, 6, "    ▓▓", Color::BLU, true);
+  this->render->Draw(this->xBound.second + 6, 7, "▓▓▓▓▓▓", Color::BLU, true);
 
   this->render->Draw(this->xBound.second + 1, 10, "█████▶ STATUS ◀█████", Color::WHT, true);
   this->render->Draw(this->xBound.second + 1, 11, "░░░              ░░░", Color::CYN, true);
@@ -80,8 +80,8 @@ void Game::PanelHint() {
     case OVER: {
       this->render->Draw(this->xBound.second + 1, 25, "█████▶  HINT  ◀█████", Color::WHT, true);
       this->render->Draw(this->xBound.second + 1, 26, "[S] ▶ START GAME    ", Color::CYN, true);    
-      this->render->Draw(this->xBound.second + 1, 27, "[M] ▶ TOGGLE MODE   ", Color::CYN, true);
-      this->render->Draw(this->xBound.second + 1, 28, "[T] ▶ TOGGLE SPEED  ", Color::CYN, true);
+      this->render->Draw(this->xBound.second + 1, 27, "[T] ▶ TOGGLE SPEED  ", Color::CYN, true);
+      this->render->Draw(this->xBound.second + 1, 28, "[M] ▶ TOGGLE MODE   ", Color::CYN, true);
       break;
     }
     case RUNNING: {

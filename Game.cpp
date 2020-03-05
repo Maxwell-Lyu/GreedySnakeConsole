@@ -63,9 +63,6 @@ void Game::Framework() {
 }
 
 
-void Game::Build() {
-
-}
 
 uint64_t getTime() {
   timeb time;
