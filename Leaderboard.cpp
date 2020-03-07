@@ -46,7 +46,7 @@ void Game::getPlayerName(int score) {
       }
       _sleep(50);
     }
-    name[index - 1] = '\0';
+    name[index] = '\0';
     this->render->HideCursor();
     fclose(fp);
     strcpy(tmp.name, name);
