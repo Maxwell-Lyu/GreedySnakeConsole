@@ -147,7 +147,7 @@ int Game::Loop() {
     }
 
 
-    if(time_bonus_start && getTime() > this->fps * 50 + time_bonus_start) {
+    if(time_bonus_start && getTime() > this->fps * 30 + time_bonus_start) {
       this->snake->foods.dropBonus();
       time_bonus_start = 0;
     }

@@ -10,7 +10,7 @@ void Render::SizeScreen(int x, int y) {
 void Render::ClearScreen() { std::cout<<"\033[2J"; }
 void Render::HideCursor() { std::cout<<"\033[?25l"; }
 void Render::ShowCursor() { std::cout<<"\033[?25h"; }
-void Render::Draw(int x, int y, const char *c, Color color, bool isBold, std::pair<int, int> xBound, std::pair<int, int> yBound) { 
+void Render::Draw(int x, int y, const char *c, Color color, bool isBold, bool delay) { 
   // int x0 = std::get<0>(xBound);
   // int x1 = std::get<1>(xBound) - x0 + 1;
   // if(x0 >= 0 && x1 > 0) {
@@ -23,7 +23,7 @@ void Render::Draw(int x, int y, const char *c, Color color, bool isBold, std::pa
   //   while(y < y0) y += y1;
   //   y = (y - y0) % y1 + y0;
   // }
-  _sleep(5);
+  if(delay) _sleep(50);
   if(isBold) std::cout<<"\033["<<color<<";1m\033["<<y<<";"<<x * 2 - 1<<"H"<<c;
   else std::cout<<"\033["<<color<<"m\033["<<y<<";"<<x * 2 - 1<<"H"<<c;
   std::cout<<"\033[0m";

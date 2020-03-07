@@ -16,7 +16,7 @@ class Render {
     void HideCursor();
     void ShowCursor();
     // bound: [xl, xr, yl, yr]
-    void Draw(int x, int y, const char *c, Color color, bool isBold = false, std::pair<int, int> xBound = {-1,-1}, std::pair<int, int> yBound = {-1,-1});
+    void Draw(int x, int y, const char *c, Color color, bool isBold = false, bool delay = false);
     void DrawRect(std::pair<int, int> xBound, std::pair<int, int> yBound, const char *c, Color color);
     void Test();
 };
