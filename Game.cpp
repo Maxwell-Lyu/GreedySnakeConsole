@@ -19,7 +19,7 @@ void Game::Framework() {
           Render::ClearScreen();
           this->DrawPanel();
           int score = this->Loop(); 
-          this->getPlayerName(score);
+          this->LeaderBoard(score);
           this->PanelDelBonus();
           this->PanelHint();
           break;
@@ -53,13 +53,13 @@ int Game::Loop() {
   ftime(&time);
   srand(time.time);
   // if(this->snake != nullptr) delete this->snake;
-  this->snake = new Snake(this->xBound, this->yBound, this->direction, (this->xBound.first + this->xBound.second)/2, (this->yBound.first + this->yBound.second)/2);
+  Direction d = UP;
+  this->snake = new Snake(this->xBound, this->yBound, d, (this->xBound.first + this->xBound.second)/2, (this->yBound.first + this->yBound.second)/2);
   if(this->mode) Render::DrawRect(this->xBound, this->yBound, "▓▓", Color::RED);
   int Score = 0;
   uint64_t time0 = getTime();
   int foodCount = 0;
   uint64_t time_bonus_start = 0;
-  Direction d = this->direction;
 
   this->PanelSetStatus(RUNNING);
   this->PanelSetSpeed();
@@ -80,6 +80,7 @@ int Game::Loop() {
         case 112: {
           this->PanelSetStatus(PAUSE);
           this->PanelHint();
+          int bonusUsed = getTime() - time_bonus_start;
           while(1) {
             if(kbhit()) {
               char ch = getch();
@@ -91,7 +92,10 @@ int Game::Loop() {
             }
             _sleep(200);
           }
-          time0 = getTime() + 2000;
+          this->PanelSetStatus(READY);
+          _sleep(1000);
+          time0 = getTime();
+          if(time_bonus_start) time_bonus_start = time0 - bonusUsed;
           this->PanelSetStatus(RUNNING);
           this->PanelHint();
         }

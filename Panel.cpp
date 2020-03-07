@@ -87,7 +87,7 @@ void Game::PanelHint() {
     case RUNNING: {
       Render::Draw(this->xBound.second + 1, 25, "█████▶  HINT  ◀█████", Color::WHT, true);
       Render::Draw(this->xBound.second + 1, 26, "[P] ▶ PAUSE         ", Color::CYN, true);    
-      Render::Draw(this->xBound.second + 1, 27, "                    ", Color::CYN, true);
+      Render::Draw(this->xBound.second + 1, 27, "[↕][↔] ▶ MOVE       ", Color::GRN, true);
       Render::Draw(this->xBound.second + 1, 28, "                    ", Color::CYN, true);
       break;
     }

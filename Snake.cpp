@@ -29,6 +29,7 @@ void Snake::setDirection(Direction d) {
 
 int Snake::Move(bool getFood) {
   std::pair<int,int> to_add, to_fad, to_del;
+  // 选择方向
   switch(this->direction) {
     case Direction::UP: { 
       to_fad = this->points.front(); 
@@ -51,9 +52,11 @@ int Snake::Move(bool getFood) {
       to_add = Render::justifyPoint({std::get<0>(to_fad) + 1, std::get<1>(to_fad)}, this->xBound, this->yBound); 
       break; }
   }
+  // 更新蛇头
   Render::Draw(std::get<0>(to_add), std::get<1>(to_add), "██", this->color);
   Render::Draw(std::get<0>(to_fad), std::get<1>(to_fad), "▓▓", this->color);
   this->points.emplace_front(to_add);
+  // 删除蛇尾
   switch(this->foods.checkFood(to_add)) {
     case EMPTY: {
       Render::Draw(std::get<0>(to_del), std::get<1>(to_del), "  ", this->color);

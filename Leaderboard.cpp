@@ -2,7 +2,7 @@
 
 bool sortFun(const struct LeaderboardEntry &e1, const struct LeaderboardEntry &e2) { return e1.score > e2.score; }
 
-void Game::getPlayerName(int score) {
+void Game::LeaderBoard(int score) {
 
   Render::Draw(5 , 7 , "█████████████▶  GREEDY SNAKE  ◀█████████████", Color::YLW, true);
   Render::Draw(5 , 8 , "██                                        ██", Color::YLW, true);
@@ -33,15 +33,17 @@ void Game::getPlayerName(int score) {
     Render::ShowCursor();
     char name[32];
     int index = 0;
-    char ch;
+    unsigned char ch;
     while(index < 21) {
       if(kbhit()) {
         ch = getch();
         if(ch == 13)
           break;
-        else if((ch >= 48 && ch <= 122)||(ch >= 65 && ch <= 90)||(ch >= 97 && ch <= 122)) {
+        else if((ch >= 48 && ch <= 122)) {
           std::cout<<ch; 
           name[index++] = ch;
+        } else if(ch == 224) {
+          getch();
         }
       }
       _sleep(50);

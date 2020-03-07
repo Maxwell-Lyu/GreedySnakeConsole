@@ -1,6 +1,6 @@
 #include "Game.h"
 
-std::pair<int,int> Foods::setFood(std::deque<std::pair<int,int>> &avoid, std::pair<int, int> &xBound, std::pair<int, int> &yBound, bool isBonus) {
+void Foods::setFood(std::deque<std::pair<int,int>> &avoid, std::pair<int, int> &xBound, std::pair<int, int> &yBound, bool isBonus) {
   const int padding = 2;
   std::pair<int,int> tmp;
   bool inAvoid = false;
@@ -19,7 +19,6 @@ std::pair<int,int> Foods::setFood(std::deque<std::pair<int,int>> &avoid, std::pa
     Render::Draw(std::get<0>(tmp), std::get<1>(tmp), "➊ ", Color::GRN);
     this->food = tmp;
   }
-  return tmp;
 } 
 
 int Foods::checkFood(std::pair<int, int> &target) {
