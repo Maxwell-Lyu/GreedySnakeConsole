@@ -130,11 +130,11 @@ int Game::Loop() {
             time_bonus_start = getTime();
             this->snake->foods.setFood(this->snake->points, this->snake->xBound, this->snake->yBound, true);
           }
-          Score += 100;
+          Score += (int)(1000 / this->fps) * 10;
           break;
         } 
         case BONUS: {
-          Score += 500; 
+          Score += (int)(1000 / this->fps) * 50; 
           time_bonus_start = 0; 
           break;
         }
