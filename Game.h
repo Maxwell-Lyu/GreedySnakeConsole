@@ -11,14 +11,15 @@ enum Color { BLK = 30, RED, GRN, YLW, BLU, MAG, CYN, WHT };
 
 class Render {
   public:
-    void SizeScreen(int x, int y);
-    void ClearScreen();
-    void HideCursor();
-    void ShowCursor();
+    static void SizeScreen(int x, int y);
+    static void ClearScreen();
+    static void HideCursor();
+    static void ShowCursor();
     // bound: [xl, xr, yl, yr]
-    void Draw(int x, int y, const char *c, Color color, bool isBold = false, bool delay = false);
-    void DrawRect(std::pair<int, int> xBound, std::pair<int, int> yBound, const char *c, Color color);
-    void Test();
+    static void Draw(int x, int y, const char *c, Color color, bool isBold = false, bool delay = false);
+    static void DrawRect(std::pair<int, int> xBound, std::pair<int, int> yBound, const char *c, Color color);
+    static std::pair<int,int> justifyPoint(std::pair<int,int> p, std::pair<int, int> xBound, std::pair<int, int> yBound);
+    static void Test();
 };
 
 enum {FOOD, BONUS, EMPTY};
@@ -28,7 +29,6 @@ class Foods {
     int count = 0;
     std::pair<int,int> food = {-1, -1};
     std::pair<int,int> bonus = {-1, -1};
-    Render render;
   public:
     std::pair<int,int> setFood(std::deque<std::pair<int,int>> &avoid, std::pair<int, int> &xBound, std::pair<int, int> &yBound, bool isBonus = false);
     int checkFood(std::pair<int, int> &target);
@@ -45,7 +45,6 @@ class Snake {
     int Move(bool getFood = false);
     ~Snake();
   private:
-    Render render;
     Foods foods;
     std::pair<int, int> xBound = {-1,-1};
     std::pair<int, int> yBound = {-1,-1};
@@ -59,7 +58,6 @@ enum {RUNNING, PAUSE, OVER, READY};
 enum {FREE, WALL};
 class Game {
   private:
-    Render render;
     Snake *snake = nullptr;
     Direction direction = Direction::UP;
     std::pair<int, int> xBound = {1,30};
@@ -86,4 +84,9 @@ class Game {
     void PanelHint();
 
     void getPlayerName(int score);
+};
+
+struct LeaderboardEntry {
+  char name[32];
+  int score;
 };

@@ -16,7 +16,7 @@ Snake::Snake(std::pair<int, int> xBound, std::pair<int, int> yBound, Direction d
 
 void Snake::Print() {
   for(std::deque<std::pair<int,int>>::iterator it = this->points.begin(); it != this->points.end(); ++it)
-    this->render.Draw( std::get<0>(*it), std::get<1>(*it), it == this->points.begin() ? "██" : "▓▓", this->color);
+    Render::Draw( std::get<0>(*it), std::get<1>(*it), it == this->points.begin() ? "██" : "▓▓", this->color);
 }
 
 void Snake::setDirection(Direction d) {
@@ -33,30 +33,30 @@ int Snake::Move(bool getFood) {
     case Direction::UP: { 
       to_fad = this->points.front(); 
       to_del = this->points.back(); 
-      to_add = justifyPoint({std::get<0>(to_fad), std::get<1>(to_fad) - 1}, this->xBound, this->yBound); 
+      to_add = Render::justifyPoint({std::get<0>(to_fad), std::get<1>(to_fad) - 1}, this->xBound, this->yBound); 
       break; }
     case Direction::LT: { 
       to_fad = this->points.front(); 
       to_del = this->points.back(); 
-      to_add = justifyPoint({std::get<0>(to_fad) - 1, std::get<1>(to_fad)}, this->xBound, this->yBound); 
+      to_add = Render::justifyPoint({std::get<0>(to_fad) - 1, std::get<1>(to_fad)}, this->xBound, this->yBound); 
       break; }
     case Direction::DN: { 
       to_fad = this->points.front(); 
       to_del = this->points.back(); 
-      to_add = justifyPoint({std::get<0>(to_fad), std::get<1>(to_fad) + 1}, this->xBound, this->yBound); 
+      to_add = Render::justifyPoint({std::get<0>(to_fad), std::get<1>(to_fad) + 1}, this->xBound, this->yBound); 
       break; }
     case Direction::RT: { 
       to_fad = this->points.front(); 
       to_del = this->points.back(); 
-      to_add = justifyPoint({std::get<0>(to_fad) + 1, std::get<1>(to_fad)}, this->xBound, this->yBound); 
+      to_add = Render::justifyPoint({std::get<0>(to_fad) + 1, std::get<1>(to_fad)}, this->xBound, this->yBound); 
       break; }
   }
-  this->render.Draw(std::get<0>(to_add), std::get<1>(to_add), "██", this->color);
-  this->render.Draw(std::get<0>(to_fad), std::get<1>(to_fad), "▓▓", this->color);
+  Render::Draw(std::get<0>(to_add), std::get<1>(to_add), "██", this->color);
+  Render::Draw(std::get<0>(to_fad), std::get<1>(to_fad), "▓▓", this->color);
   this->points.emplace_front(to_add);
   switch(this->foods.checkFood(to_add)) {
     case EMPTY: {
-      this->render.Draw(std::get<0>(to_del), std::get<1>(to_del), "  ", this->color);
+      Render::Draw(std::get<0>(to_del), std::get<1>(to_del), "  ", this->color);
       this->points.pop_back();
       return EMPTY;
     }

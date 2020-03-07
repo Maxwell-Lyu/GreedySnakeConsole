@@ -1,33 +1,12 @@
 #include "Game.h"
 
-
-std::pair<int,int> justifyPoint(std::pair<int,int> p, std::pair<int, int> xBound, std::pair<int, int> yBound) {
-  int x = std::get<0>(p);
-  int y = std::get<1>(p);
-  int x0 = std::get<0>(xBound);
-  int x1 = std::get<1>(xBound) - x0 + 1;
-  if(x0 >= 0 && x1 > 0) {
-    while(x < x0) x += x1;
-    x = (x - x0) % x1 + x0;
-  }
-  int y0 = std::get<0>(yBound);
-  int y1 = std::get<1>(yBound) - y0 + 1;
-  if(y0 >= 0 && y1 > 0) {
-    while(y < y0) y += y1;
-    y = (y - y0) % y1 + y0;
-  }
-  return {x,y};
-}
-
-
-
 Game::Game() {
 }
 
 void Game::Framework() {
-  render.SizeScreen(this->xBound.second + 10, this->yBound.second);
-  render.ClearScreen();
-  render.HideCursor();
+  Render::SizeScreen(this->xBound.second + 10, this->yBound.second);
+  Render::ClearScreen();
+  Render::HideCursor();
   this->DrawPanel();
   this->PanelHint();
   this->PanelSetStatus(READY);
@@ -37,7 +16,7 @@ void Game::Framework() {
     if(kbhit()) {
       switch (getch()) {
         case 115: {
-          render.ClearScreen();
+          Render::ClearScreen();
           this->DrawPanel();
           int score = this->Loop(); 
           this->getPlayerName(score);
@@ -75,7 +54,7 @@ int Game::Loop() {
   srand(time.time);
   // if(this->snake != nullptr) delete this->snake;
   this->snake = new Snake(this->xBound, this->yBound, this->direction, (this->xBound.first + this->xBound.second)/2, (this->yBound.first + this->yBound.second)/2);
-  if(this->mode) this->render.DrawRect(this->xBound, this->yBound, "▓▓", Color::RED);
+  if(this->mode) Render::DrawRect(this->xBound, this->yBound, "▓▓", Color::RED);
   int Score = 0;
   uint64_t time0 = getTime();
   int foodCount = 0;
