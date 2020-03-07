@@ -59,7 +59,7 @@ enum {RUNNING, PAUSE, OVER, READY};
 enum {FREE, WALL};
 class Game {
   private:
-    Render *render = nullptr;
+    Render render;
     Snake *snake = nullptr;
     Direction direction = Direction::UP;
     std::pair<int, int> xBound = {1,30};
