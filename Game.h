@@ -5,7 +5,8 @@
 #include <sys/timeb.h>
 #include <cstring>
 #include <vector>
-#include<algorithm>
+#include <iomanip>
+#include <algorithm>
 
 enum Color { BLK = 30, RED, GRN, YLW, BLU, MAG, CYN, WHT };
 

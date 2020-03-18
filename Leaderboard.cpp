@@ -34,21 +34,7 @@ void Game::LeaderBoard(int score) {
     char name[32];
     int index = 0;
     unsigned char ch;
-    while(index < 21) {
-      if(kbhit()) {
-        ch = getch();
-        if(ch == 13)
-          break;
-        else if((ch >= 48 && ch <= 122)) {
-          std::cout<<ch; 
-          name[index++] = ch;
-        } else if(ch == 224) {
-          getch();
-        }
-      }
-      _sleep(50);
-    }
-    name[index] = '\0';
+    std::cin >> std::setw(20) >> name;
     Render::HideCursor();
     fclose(fp);
     strcpy(tmp.name, name);
